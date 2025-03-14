@@ -1,0 +1,16 @@
+# Yazi configuration file
+
+[manager]
+# Show hidden files by default
+show_hidden = true
+
+# Additional manager settings you might want
+sort_by = "natural"
+sort_sensitive = false
+sort_reverse = false
+sort_dir_first = true
+
+[preview]
+# Preview settings
+max_width = 1200
+max_height = 1800
