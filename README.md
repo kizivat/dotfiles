@@ -79,6 +79,24 @@ packages from the `Brewfile` with the following command:
 brew bundle install -g
 ```
 
+If your git submodules were private, you'll now need to authenticate with GitHub
+to install the private dotfiles.
+
+If you're using 1Password, you need to set it up using the app's GUI and turn on
+the "Use the SSH agent" option in the 1Password `Settings > Developer` menu.
+
+To use install the private dotfiles, you'll now need to initialize the submodules.
+
+```sh
+git submodule update --init --recursive
+```
+
+Now you can reinstall the dotfiles together with the private ones.
+
+```sh
+./macos
+```
+
 ### Ubuntu
 
 The following command will install the dotfiles on a Ubuntu system.
