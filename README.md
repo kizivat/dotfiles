@@ -11,10 +11,14 @@ to the system.
 
 ## Installation
 
-Check out the repository anywhere on the system. My prefered location is
+Fork this repository on Github and check out your fork anywhere on the system. My prefered location is
 `${DEV_DIR}/<organization>`, where `${DEV_DIR}` is my primary the development
-directory. The `<organization>` would be similar to the GitHub user/organization
+directory. For macOS, I prefer `export DEV_DIR=~/Developer` (as it comes with nice icone in Finder). The `<organization>` would be similar to the GitHub user/organization
 name.
+
+```sh
+git clone https://github.com/kizivat/dotfiles.git ~/${DEV_DIR}/<organization>
+```
 
 ### Private Submodule
 
@@ -25,8 +29,7 @@ This repository uses a private git submodule for personal configurations. You'll
 3. Replace the submodule with your own
 
 ```bash
-# Clone your fork
-git clone https://github.com/yourusername/dotfiles.git
+# Go to the forked repository
 cd dotfiles
 
 # Remove the existing submodule reference
@@ -45,7 +48,13 @@ Installing the dotfiles on clean macOS system requires having [Homebrew](https:/
 Install Homebrew with the following command:
 
 ```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && eval "$(/opt/homebrew/bin/brew shellenv)"
+```
+
+After this, you'll need to install stow through Homebrew to use this dotfiles repo.
+
+```sh
+brew install stow
 ```
 
 The following command will install the dotfiles on a macOS system.

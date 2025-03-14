@@ -1,9 +1,10 @@
 # CLIs
 brew "git"				# Git (to use the most up-to-date version)
-brew "neovim"			# Text editor
+brew "neovim"				# Text editor
 brew "tmux"				# Terminal multiplexer
 brew "fzf"				# Fuzzy finder 
-brew "fd"					# Find alternative to be used with fzf
+brew "fd"				# Find alternative to be used with fzf
+brew "stow"				# Symlink farm manager. Used by dotfiles
 brew "yazi"				# Terminal file manager
 
 brew "zinit"			# Zsh plugin manager
