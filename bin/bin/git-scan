@@ -1,0 +1,97 @@
+#!/bin/sh
+
+RED='\033[0;31m'
+YELLOW='\033[0;33m'
+WHITE='\033[0;37m'
+GREY='\033[1;30m'
+NC='\033[0m' # No Color
+
+search_path="${1:-$(pwd)}"
+
+uncommitted_count=0
+unpushed_count=0
+no_remote_count=0
+non_dev_dir_count=0
+crawled_count=0
+log_entries=""
+
+# Function to print stats
+print_stats() {
+  printf "${YELLOW}Uncommitted: %d${NC}\n" "$uncommitted_count"
+  printf "${WHITE}Unpushed: %d${NC}\n" "$unpushed_count"
+  printf "${RED}No Remote: %d${NC}\n" "$no_remote_count"
+  printf "${GREY}Non-Dev Dir: %d${NC}\n" "$non_dev_dir_count"
+  printf "${WHITE}Crawled Folders: %d${NC}\n" "$crawled_count"
+}
+
+# Function to repaint the screen
+repaint_screen() {
+  clear
+  printf "%b\n" "$log_entries"
+  print_stats
+}
+
+# Clear the screen and print initial stats
+clear
+print_stats
+
+find "$search_path" -type d -name ".git" -prune 2>/dev/null | while read -r git_dir; do
+  if [ $? -ne 0 ]; then
+    log_entries="${log_entries}${RED}warning,operation not permitted in,${search_path}${NC}\n"
+    repaint_screen
+    continue
+  fi
+
+  repo_dir=$(dirname "$git_dir")
+  crawled_count=$((crawled_count + 1))
+
+  status=""
+  color="$NC"
+
+  git_status=$(git -C "$repo_dir" status --porcelain)
+  git_remote=$(git -C "$repo_dir" remote show origin 2>/dev/null)
+  git_cherry=$(git -C "$repo_dir" cherry -v 2>/dev/null)
+
+  if [ -n "$git_status" ]; then
+    status="[uncommitted]"
+    color="${YELLOW}"
+    uncommitted_count=$((uncommitted_count + 1))
+  fi
+
+  if [ -n "$git_remote" ]; then
+    if [ -n "$git_cherry" ]; then
+      if [ -n "$status" ]; then
+        status="$status|[unpushed]"
+      else
+        status="[unpushed]"
+        unpushed_count=$((unpushed_count + 1))
+      fi
+      if [ "$color" = "$NC" ]; then
+        color="${WHITE}"
+      fi
+    fi
+  else
+    log_entries="${log_entries}${RED}[no-remote],${repo_dir}${NC}\n"
+    no_remote_count=$((no_remote_count + 1))
+    repaint_screen
+    continue
+  fi
+
+  if [[ "$repo_dir" != "$DEV_DIR"* ]]; then
+    if [ -n "$status" ]; then
+      status="$status|[non-dev-dir]"
+    else
+      status="[non-dev-dir]"
+      non_dev_dir_count=$((non_dev_dir_count + 1))
+    fi
+    if [ "$color" = "$NC" ]; then
+      color="${GREY}"
+    fi
+  fi
+
+  if [ -n "$status" ]; then
+    log_entries="${log_entries}${color}${status},${repo_dir}${NC}\n"
+  fi
+
+  repaint_screen
+done

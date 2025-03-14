@@ -1,0 +1,30 @@
+#!/usr/bin/env zsh
+
+PACKAGES=(
+	bin
+	git
+	nvim
+	oh-my-posh
+	tmux
+	zsh
+)
+
+# Run install scripts and stow all packages
+for package in $PACKAGES; do
+	echo "Processing $package..."
+	
+	# Run install script if it exists
+	if [ -f "$package/install.sh" ]; then
+		echo "Running $package/install.sh..."
+		if [ -x "$package/install.sh" ]; then
+			./$package/install.sh
+		else
+			chmod +x "$package/install.sh"
+			./$package/install.sh
+		fi
+	fi
+	
+	# Stow package
+	echo "Stowing $package..."
+	stow --target=$HOME $package $@
+done

@@ -1,0 +1,18 @@
+[init]
+	defaultBranch = main
+
+[commit]
+	gpgsign = true
+
+[gpg]
+	format = ssh
+
+# Platform-specific settings
+[includeIf "gitdir:/Users/"]
+	path = ~/.gitconfig-op-macos
+
+[includeIf "gitdir:/home/"]
+	path = ~/.gitconfig-op-linux
+
+[include]
+	path = ~/.gitconfig-private

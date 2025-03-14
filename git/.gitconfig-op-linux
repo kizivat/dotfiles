@@ -1,0 +1,5 @@
+[gpg]
+		format = ssh
+
+[gpg "ssh"]
+		program = /usr/bin/op-ssh-sign

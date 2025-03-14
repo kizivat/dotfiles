@@ -1,0 +1,121 @@
+#!/usr/bin/env bash
+
+# Set up colors
+GREEN='\033[0;32m'
+BLUE='\033[0;34m'
+YELLOW='\033[0;33m'
+BOLD='\033[1m'
+NC='\033[0m' # No Color
+
+echo -e "${BLUE}${BOLD}Git Signing Key Setup${NC}"
+echo "This script will configure Git to use SSH key signing."
+echo ""
+
+# Choose which config file to update
+CONFIG_FILE=$(echo -e "personal\nwork" | fzf --header "Select which Git config to update:" --height 10)
+
+if [ -z "$CONFIG_FILE" ]; then
+    echo "No config selected. Exiting."
+    exit 0
+fi
+
+# List SSH keys from SSH agent
+echo -e "\n${BLUE}${BOLD}Fetching SSH keys from SSH agent...${NC}"
+
+SSH_KEYS=$(ssh-add -L 2>/dev/null)
+if [ $? -ne 0 ] || [ -z "$SSH_KEYS" ]; then
+    echo -e "${YELLOW}No SSH keys found in agent. Make sure your SSH agent is running.${NC}"
+    echo "You can add keys with: ssh-add ~/.ssh/your_key"
+    exit 1
+fi
+
+# Format keys for display (extract comment if available)
+FORMATTED_KEYS=""
+while IFS= read -r key; do
+    key_type=$(echo "$key" | awk '{print $1}')
+    key_comment=$(echo "$key" | awk '{print $3}')
+    
+    if [ -n "$key_comment" ]; then
+        FORMATTED_KEYS+="${key_type} (${key_comment})\n"
+    else
+        FORMATTED_KEYS+="${key_type} (no comment)\n"
+    fi
+done <<< "$SSH_KEYS"
+
+# Use fzf to select a key
+SELECTED_KEY_LINE=$(echo -e "$FORMATTED_KEYS" | fzf --header "Select an SSH key for Git commit signing:" --height 15)
+
+if [ -z "$SELECTED_KEY_LINE" ]; then
+    echo "No key selected. Exiting."
+    exit 0
+fi
+
+# Extract key type and comment to find the original key
+KEY_TYPE=$(echo "$SELECTED_KEY_LINE" | awk '{print $1}')
+KEY_COMMENT=$(echo "$SELECTED_KEY_LINE" | sed -E 's/.*\((.*)\)/\1/')
+
+if [ "$KEY_COMMENT" = "no comment" ]; then
+    # Find by key type only if no comment
+    PUBLIC_KEY=$(echo "$SSH_KEYS" | grep "^$KEY_TYPE" | head -1)
+else
+    # Find by both type and comment
+    PUBLIC_KEY=$(echo "$SSH_KEYS" | grep "$KEY_TYPE" | grep "$KEY_COMMENT" | head -1)
+fi
+
+# Just keep the key type and hash part (first two fields)
+PUBLIC_KEY=$(echo "$PUBLIC_KEY" | awk '{print $1 " " $2}')
+
+# Get name and email
+read -p "Enter your name for this Git config: " NAME
+read -p "Enter your email for this Git config: " EMAIL
+
+# Create the config file in the home directory
+TARGET_FILE="$HOME/.gitconfig-$CONFIG_FILE"
+
+# Write to the config file
+echo -e "[user]\n\tname = $NAME\n\temail = $EMAIL\n\tsigningkey = $PUBLIC_KEY" > "$TARGET_FILE"
+
+echo -e "\n${GREEN}${BOLD}Success!${NC}"
+echo "Created Git config at $TARGET_FILE"
+echo "Key: $PUBLIC_KEY"
+
+# Configure Git to use SSH signing
+echo -e "\n${BLUE}${BOLD}Configuring Git to use SSH signing...${NC}"
+echo -e "[gpg]\n\tformat = ssh" >> "$TARGET_FILE"
+
+# Configure to use 1Password SSH signing if needed
+read -p "Use 1Password for SSH signing? (y/n): " USE_1P
+if [[ $USE_1P == [Yy]* ]]; then
+    if [[ "$(uname)" == "Darwin" ]]; then
+        # macOS
+        echo -e "[gpg \"ssh\"]\n\tprogram = /Applications/1Password.app/Contents/MacOS/op-ssh-sign" >> "$TARGET_FILE"
+    else
+        # Linux
+        echo -e "[gpg \"ssh\"]\n\tprogram = /usr/bin/op-ssh-sign" >> "$TARGET_FILE"
+    fi
+fi
+
+# Set commit signing
+echo -e "[commit]\n\tgpgsign = true" >> "$TARGET_FILE"
+
+# Ask if the user wants to use this key for the current repository
+read -p "Configure this key for the current repository? (y/n): " USE_NOW
+
+if [[ $USE_NOW == [Yy]* ]]; then
+    git config user.name "$NAME"
+    git config user.email "$EMAIL"
+    git config user.signingkey "$PUBLIC_KEY"
+    git config gpg.format ssh
+    git config commit.gpgsign true
+    
+    if [[ $USE_1P == [Yy]* ]]; then
+        # Configure 1Password SSH signing for current repo
+        if [[ "$(uname)" == "Darwin" ]]; then
+            git config gpg.ssh.program "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+        else
+            git config gpg.ssh.program "/usr/bin/op-ssh-sign"
+        fi
+    fi
+    
+    echo -e "${GREEN}Current repository configured to use this signing key.${NC}"
+fi
