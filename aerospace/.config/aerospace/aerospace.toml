@@ -232,8 +232,8 @@ if.app-id = 'com.microsoft.VSCode'
 run = 'move-node-to-workspace 1' # always open VSCode in workspace 1
 
 [[on-window-detected]]
-if.app-id = 'company.thebrowser.Browser'
-run = 'move-node-to-workspace 2' # always open Arc in workspace 2
+if.app-id = 'com.apple.Safari'
+run = 'move-node-to-workspace 2' # always open Safari in workspace 2
 
 [[on-window-detected]]
 if.app-id = 'com.mitchellh.ghostty'
