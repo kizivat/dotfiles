@@ -63,13 +63,6 @@ The following command will install the dotfiles on a macOS system.
 ./macos
 ```
 
-Aerospace recomends the below to get around windows showing too small in Expose.
-It groups the windows by application is an O.K. work around for me.
-
-```sh
-defaults write com.apple.dock expose-group-apps -bool true && killall Dock
-```
-
 #### Homebrew
 
 After bootstrapping the system with the `macos` script, you can install the
