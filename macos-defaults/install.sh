@@ -32,17 +32,38 @@ $SCRIPT_DIR/dock-apps.sh
 # Finder
 # ------------------------------------------
 
-# Show all filename extensions
-defaults write NSGlobalDomain AppleShowAllExtensions -bool true
-
 # Show hidden files
-defaults write com.apple.finder AppleShowAllFiles -bool true  
+defaults write com.apple.finder AppleShowAllFiles -bool true
 
-# Column view as default
+# Column view as default for all windows
 defaults write com.apple.finder FXPreferredViewStyle -string "clmv"
 
 # Show path bar
 defaults write com.apple.finder ShowPathbar -bool true
+
+# Hide iCloud section
+defaults write com.apple.finder ShowCloudDesktop -bool false
+defaults write com.apple.finder SidebarShowingiCloudDesktop -bool false
+defaults write com.apple.finder ShowRecentTags -bool false
+defaults write com.apple.finder SidebarShowingSignedIntoiCloud -bool false
+
+# Expand the "Open with" and "Sharing & Permissions" file info panes by default
+defaults write com.apple.finder FXInfoPanesExpanded -dict \
+  OpenWith -bool true \
+  Privileges -bool true
+
+# New Finder windows show Home folder
+defaults write com.apple.finder NewWindowTarget -string "PfHm"
+defaults write com.apple.finder NewWindowTargetPath -string "file://${HOME}/"
+
+# Show status bar
+defaults write com.apple.finder ShowStatusBar -bool true
+
+# Keep folders on top when sorting by name
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+
+# Disable warning when changing file extensions
+defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false 
 
 # ------------------------------------------
 # Keyboard & Input
