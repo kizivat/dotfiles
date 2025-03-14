@@ -56,3 +56,5 @@ source <(fzf --zsh)
 # Navigation
 
 setopt auto_cd 		# change dir without `cd`
+
+[ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
