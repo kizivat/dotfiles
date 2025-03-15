@@ -38,6 +38,7 @@ add_app_to_dock "/System/Applications/Calendar.app"
 add_app_to_dock "/Applications/Things3.app"
 add_app_to_dock "/Applications/Figma.app"
 add_app_to_dock "/Applications/Blender.app"
+add_app_to_dock "/Applications/DaVinci Resolve.app"
 add_app_to_dock "/Applications/Signal.app"
 add_app_to_dock "/Applications/Discord.app"
 

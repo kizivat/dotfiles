@@ -52,4 +52,5 @@ cask "font-monaspace-nerd-font"	# Monospace font including developer icons
 cask "font-monaspace"
 
 # App Store Apps
-mas "Things 3", id: 904_280_696 # To-dos
+mas "Things 3", id: 904_280_696					# To-dos
+mas "DaVinci Resolve", id: 571_213_070	# Video editing
