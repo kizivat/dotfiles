@@ -6,7 +6,8 @@ alias dev="cd ${DEV_DIR}"
 
 for dir in ${DEV_DIR}/*; do
   if [ -d "$dir" ]; then
-    alias "${dir##*/}"="cd $dir"
+    alias_name=$(basename "$dir")
+    alias "${alias_name}"="cd $dir"
   fi
 done
 
