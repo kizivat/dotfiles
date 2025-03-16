@@ -69,9 +69,13 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Keyboard & Input
 # ------------------------------------------
 
-# Set a fast key repeat rate
+# Set a fast key repeat rate, desable press-and-hold for keys
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain KeyRepeat -int 2
 defaults write NSGlobalDomain InitialKeyRepeat -int 15
+
+# Enable full keyboard access for all controls (e.g. enable Tab in modal dialogs)
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
 
 # ------------------------------------------
 # Trackpad
