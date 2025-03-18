@@ -69,6 +69,9 @@ defaults write com.apple.finder FXEnableExtensionChangeWarning -bool false
 # Keyboard & Input
 # ------------------------------------------
 
+# Use F1, F2, etc. keys as standard function keys
+defaults write NSGlobalDomain com.apple.keyboard.fnState -bool true
+
 # Set a fast key repeat rate, desable press-and-hold for keys
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain KeyRepeat -int 2
