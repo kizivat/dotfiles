@@ -1,4 +1,4 @@
-config-file = theme.conf
+theme = light:theme-light.conf,dark:theme-dark.conf
 
 font-size = 13.5
 copy-on-select = false
