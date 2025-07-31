@@ -123,6 +123,23 @@ defaults write NSGlobalDomain AppleAccentColor -int 4
 defaults write NSGlobalDomain AppleHighlightColor -string "0.968627 0.831373 1.000000 Purple"
 
 # ------------------------------------------
+# Menu Bar & Control Center
+# ------------------------------------------
+
+# Clock options - Show Date: Never (0 = always, 1 = when space allows, 2 = never)
+# defaults write com.apple.menuextra.clock DateFormat -string "h:mm:ss"
+defaults write com.apple.menuextra.clock ShowDate -int 2
+
+# Clock options - Show the Day of the Week: off
+defaults write com.apple.menuextra.clock ShowDayOfWeek -bool false
+
+# Clock options - Display time with seconds: on
+defaults write com.apple.menuextra.clock ShowSeconds -bool true
+
+# Remove Spotlight icon from menu bar
+defaults write com.apple.Spotlight MenuItemHidden -bool true
+
+# ------------------------------------------
 # Apply changes
 # ------------------------------------------
 
