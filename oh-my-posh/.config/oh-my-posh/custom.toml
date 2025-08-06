@@ -43,6 +43,17 @@ final_space = true
       commit_icon = ''
       fetch_status = true
       tag_icon = ' '
+  
+  [[blocks.segments]]
+    type = 'python'
+    style = 'plain'
+    template = ' {{ if .Error }} {{ .Error }}{{ else }}{{ if .Venv }}({{ .Venv }}) {{ end }}{{ .Full }}{{ end }}'
+    background = 'transparent'
+
+    [blocks.segments.properties]
+      display_mode = 'files'
+      fetch_version = true
+      fetch_virtual_env = true
 
 [[blocks]]
   type = 'prompt'
