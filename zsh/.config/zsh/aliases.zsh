@@ -24,14 +24,54 @@ alias v="nvim"
 alias ghc='gh-clone'
 
 gh-clone() {
+  # Help page
+  for arg in "$@"; do
+    if [ "$arg" = "-h" ] || [ "$arg" = "--help" ]; then
+      cat <<EOF
+ghc / gh-clone - Clone GitHub repositories interactively
+
+Usage:
+  ghc [--forks] [-h|--help]
+
+Options:
+  --forks      Include forked repositories in the list
+  -h, --help   Show this help message and exit
+
+Description:
+  Lists your GitHub repositories (optionally including forks) that are not yet cloned locally.
+  Allows you to select repositories to clone using fzf.
+
+Examples:
+  ghc           # List and clone only non-fork repositories
+  ghc --forks   # List and clone all repositories, including forks
+  ghc -h        # Show this help page
+EOF
+      return 0
+    fi
+  done
+
+  # Check for --forks option
+  local show_forks=false
+  for arg in "$@"; do
+    if [ "$arg" = "--forks" ]; then
+      show_forks=true
+    fi
+  done
+
   # Get all repos and filter out already cloned ones
-  local all_repos=$(gh repo list --limit 1000 --json name,owner,isFork --jq '.[] | select(.isFork == false) | "\(.owner.login)/\(.name)"')
-  
+  local jq_filter
+  if [ "$show_forks" = true ]; then
+    jq_filter='.[] | "\(.owner.login)/\(.name)"'
+  else
+    jq_filter='.[] | select(.isFork == false) | "\(.owner.login)/\(.name)"'
+  fi
+  local all_repos=$(gh repo list --limit 1000 --json name,owner,isFork --jq "$jq_filter")
+
   echo "$all_repos" | while read -r repo; do
     local org=$(echo "$repo" | cut -d'/' -f1)
     local repo_name=$(echo "$repo" | cut -d'/' -f2)
     local target_path="${DEV_DIR}/${org}/${repo_name}"
-    
+
     # Only include repositories that don't already exist locally
     if [ ! -d "$target_path" ]; then
       # Get additional info for display
@@ -45,11 +85,11 @@ gh-clone() {
     # Extract organization/username from the repo
     local org=$(echo "$repo" | cut -d'/' -f1)
     local repo_name=$(echo "$repo" | cut -d'/' -f2)
-    
+
     # Create organization directory if it doesn't exist
     local target_dir="${DEV_DIR}/${org}"
     mkdir -p "$target_dir"
-    
+
     echo "Cloning $repo into $target_dir..."
     gh repo clone "$repo" "$target_dir/$repo_name"
   done
