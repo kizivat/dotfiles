@@ -1,6 +1,6 @@
 # Yazi configuration file
 
-[manager]
+[mgr]
 # Show hidden files by default
 show_hidden = true
 

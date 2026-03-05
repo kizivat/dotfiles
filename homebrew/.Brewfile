@@ -47,6 +47,9 @@ cask "firefox"				# Firefox
 cask "discord"		# Discord
 cask "signal"			# Secure messaging
 
+# AI
+cask "claude-code"
+
 # Fonts
 cask "font-monaspace-nerd-font"	# Monospace font including developer icons
 cask "font-monaspace"
