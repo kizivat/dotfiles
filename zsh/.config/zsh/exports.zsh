@@ -35,5 +35,9 @@ PATH="/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/
 [ -z "${MANPATH-}" ] || export MANPATH=":${MANPATH#:}";
 export INFOPATH="/opt/homebrew/share/info:${INFOPATH:-}";
 
+# Editor
+export EDITOR="nvim"
+export VISUAL="nvim"
+
 # NVM
 export NVM_DIR="$XDG_CONFIG_HOME/nvm"
