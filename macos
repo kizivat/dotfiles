@@ -15,12 +15,26 @@ PACKAGES=(
 		zsh
 )
 
-# Run install scripts and stow all packages
+RESTOW=false
+STOW_FLAGS=()
+
+for arg in "$@"; do
+		case "$arg" in
+				-R|--restow)
+						RESTOW=true
+						STOW_FLAGS+=(--restow)
+						;;
+				*)
+						STOW_FLAGS+=("$arg")
+						;;
+		esac
+done
+
 for package in $PACKAGES; do
 		echo "Processing $package..."
-		
-		# Run install script if it exists
-		if [ -f "$package/install.sh" ]; then
+
+		# Run install script if it exists (skipped when restowing)
+		if [[ "$RESTOW" == false ]] && [ -f "$package/install.sh" ]; then
 				echo "Running $package/install.sh..."
 				if [ -x "$package/install.sh" ]; then
 						./$package/install.sh
@@ -29,8 +43,8 @@ for package in $PACKAGES; do
 						./$package/install.sh
 				fi
 		fi
-		
+
 		# Stow package
 		echo "Stowing $package..."
-		stow --target=$HOME --ignore="(\.DS_Store|install\.sh|README\.md)" $package $@
+		stow --target=$HOME --ignore="(\.DS_Store|install\.sh|README\.md)" $package $STOW_FLAGS
 done
