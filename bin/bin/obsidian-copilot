@@ -1,0 +1,7 @@
+#!/bin/zsh -l
+
+## This script is used to launch Obsidian Terminal plugin with Copilot CLI right away.
+
+cd "/Users/kizivat/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault/"
+copilot "$@"
+exec zsh -l
