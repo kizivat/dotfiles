@@ -1,9 +1,9 @@
 # CLIs
 brew "git"				# Git (to use the most up-to-date version)
-brew "neovim"				# Text editor
+brew "neovim"			# Text editor
 brew "tmux"				# Terminal multiplexer
 brew "fzf"				# Fuzzy finder 
-brew "fd"				# Find alternative to be used with fzf
+brew "fd"					# Find alternative to be used with fzf
 brew "stow"				# Symlink farm manager. Used by dotfiles
 brew "yazi"				# Terminal file manager
 
@@ -21,16 +21,15 @@ brew "deno"				# Secure runtime for JavaScript and TypeScript
 brew "go"					# Go programming language
 
 # GUI apps (Casks)
-cask "ghostty"						# Terminal
+cask "cmux"								# Terminal
 cask "itsycal"						# Mini-calendar in menu bar
-cask "nikitabobko/tap/aerospace" # Tiling window manager
 cask "raycast"						# Spotlight alternative
 cask "visual-studio-code"	# Code editor
 
-cask "docker"					# Docker with desktop app
+cask "docker-desktop"			# Docker with desktop app
 
-cask "1password"			# Password manager - dektop app
-cask "1password-cli"	# Command line interface for 1Password
+cask "1password"					# Password manager - dektop app
+cask "1password-cli"			# Command line interface for 1Password
 
 # Note taking
 cask "obsidian"
@@ -49,9 +48,10 @@ cask "signal"			# Secure messaging
 
 # AI
 cask "claude-code"
+cask "copilot-cli"
 
 # Fonts
-cask "font-monaspace-nerd-font"	# Monospace font including developer icons
+cask "font-monaspice-nerd-font"	# Monospace font including developer icons
 cask "font-monaspace"
 
 # App Store Apps
