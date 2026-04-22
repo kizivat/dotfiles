@@ -4,6 +4,7 @@ PACKAGES=(
 		private
 		aerospace
 		bin
+		cmux
 		ghostty
 		git
 		homebrew
