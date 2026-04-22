@@ -1,5 +1,7 @@
 theme = light:theme-light.conf,dark:theme-dark.conf
 
+unfocused-split-opacity = 0.33
+
 font-size = 13.5
 copy-on-select = false
 clipboard-trim-trailing-spaces = true
