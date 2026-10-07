@@ -16,9 +16,6 @@ source "$XDG_CONFIG_HOME/zsh/aliases.zsh"
 source "$XDG_CONFIG_HOME/zsh/exports.zsh"
 source "$XDG_CONFIG_HOME/zsh/completions.zsh"
 
-# Check /opt/homebrew exists
-eval "$(brew shellenv)"
-
 # Homebrew
 export HOMEBREW_BUNDLE_NO_LOCK=1
 
