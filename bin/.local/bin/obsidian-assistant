@@ -1,0 +1,8 @@
+#!/bin/zsh -l
+
+## Launched by the Obsidian Terminal plugin: opens an AI assistant (claude) in
+## the vault, then drops into a shell. Override the vault with $OBSIDIAN_VAULT.
+
+cd "${OBSIDIAN_VAULT:-$HOME/Library/Mobile Documents/iCloud~md~obsidian/Documents/Obsidian Vault}" || exit 1
+claude "$@"
+exec zsh -l
