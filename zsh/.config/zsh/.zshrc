@@ -1,5 +1,3 @@
-export XDG_CONFIG_HOME="${HOME}/.config"
-
 # History
 HISTSIZE=50000
 HISTFILE="${HOME}/.zsh_history"
@@ -40,7 +38,7 @@ zinit light Aloxaf/fzf-tab
 zinit snippet OMZP::git
 
 # Load completions
-autoload -U compinit && compinit
+autoload -U compinit && compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
 zinit cdreplay -q
 

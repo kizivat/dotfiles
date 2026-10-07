@@ -1,5 +1,6 @@
 autoload -Uz compinit
-compinit
+mkdir -p "$XDG_CACHE_HOME/zsh"
+compinit -d "$XDG_CACHE_HOME/zsh/zcompdump"
 
 # 1Password completions
 eval "$(op completion zsh)"; compdef _op op
