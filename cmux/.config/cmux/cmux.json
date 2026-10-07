@@ -1,0 +1,20 @@
+{
+	"$schema": "https://raw.githubusercontent.com/manaflow-ai/cmux/main/web/data/cmux.schema.json",
+	"schemaVersion": 1,
+
+	"sidebarAppearance": {
+		"matchTerminalBackground": false
+	},
+
+	"automation": {
+		"workspaceAutoNaming": true
+	},
+
+	"terminal": {
+		"agentHibernation": {
+			"enabled": true
+		},
+		"showTextBoxOnNewTerminals": true,
+		"focusTextBoxOnNewTerminals": true
+	}
+}
