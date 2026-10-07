@@ -1,1 +1,5 @@
 .DS_Store
+
+# zsh writes these next to $ZDOTDIR, which is symlinked into this repo
+zsh/.config/zsh/.zcompdump*
+zsh/.config/zsh/.zsh_sessions
