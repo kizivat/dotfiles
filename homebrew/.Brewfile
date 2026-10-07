@@ -14,9 +14,10 @@ brew "ffmpeg"			# Video editing
 
 brew "gh"					# GitHub CLI
 
-brew "nvm"				# Node version manager - installs Node.js & npm
-brew "pnpm"				# Package manager for Node.js
-brew "deno"				# Secure runtime for JavaScript and TypeScript
+brew "nvm"							# Node version manager - installs Node.js & npm
+brew "pnpm"							# Package manager for Node.js
+brew "deno"							# Secure runtime for JavaScript and TypeScript
+brew "oven-sh/bun/bun"	# Fast JavaScript runtime like Node.js, but with a focus on performance
 
 brew "go"					# Go programming language
 
